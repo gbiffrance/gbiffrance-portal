@@ -1,3 +1,66 @@
+
+#more_info:hover
+{
+cursor:pointer;
+color: #AF0734;
+font-weight: bold;
+}
+[rel=popover][data-style=waypoints_popover] + .popover {
+    width:190px;
+    height:auto;
+/*     background: blue;  */
+}
+/* not working */
+[rel=popover][data-style=waypoints_popover] + > .popover-inner {
+    width:190px; !important
+    height:auto;
+    background: red;
+}
+
+
+#fr_layers i:hover
+{
+  cursor:pointer;
+  background-color:#839fd6 ;
+  color: #FCF9F9;
+  font-weight: bold;
+
+}
+.icon-eye-open, .icon-exchange
+{color: #4725C4; padding-right: 10px; padding-top: 2px;}
+.icon-eye-open
+{
+  float: left; 
+}
+.icon-eye-close
+{float: left; color: #ba0d0d; padding-right: 10px; padding-top: 2px;}
+
+.wax-tooltip {
+  z-index:50;
+  position:absolute;
+  background:#1a1a1a;
+  color:#fff;
+  padding:7px;
+ // left:1100px;
+ right: 10px;
+  top:30px;
+  border:2px solid #5CACEE;
+  border-radius:2px;
+  max-width:300px;
+  max-height: 400px;
+  overflow: auto;
+  opacity:1;
+  font-type: Georgia;
+  line-height: 1.3em;
+  font-size: 1em;
+//  width: auto;
+  -webkit-transition:opacity .9s;
+  -moz-transition:opacity .9s;
+  box-shadow:0px 0px 10px #5CACEE;
+  -moz-box-shadow:0px 0px 10px #5CACEE;
+  -webkit-box-shadow:0px 0px 10px #5CACEE;
+  }
+
 .navbar .brand
 {
 	font-size: 30px;
@@ -5,6 +68,7 @@
 
 .navbar a
 {
+  
 	font-size: 16px;
 }
 
@@ -33,7 +97,7 @@
 
 div.content
 {
-	margin-top: 100px;
+	margin-top: 40px;
 }
 
 hr {
@@ -41,7 +105,8 @@ hr {
 }
 
 label {
-  width:50px;
+  /*changed, it was 50px*/
+  width:auto;
 }
 
 th {
@@ -94,7 +159,7 @@ th {
 #search-main-box
 {
   //height: 100px;	
-  width: 920px;
+  width: 100%;
   overflow: hidden;
 }
 

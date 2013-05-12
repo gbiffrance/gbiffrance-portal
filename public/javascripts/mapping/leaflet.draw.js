@@ -54,9 +54,11 @@
     }), L.Handler.Draw = L.Handler.extend({
         includes: L.Mixin.Events,
         initialize: function (e, t) {
+
             this._map = e, this._container = e._container, this._pane = e._panes.overlayPane, t && t.shapeOptions && (t.shapeOptions = L.Util.extend({}, this.options.shapeOptions, t.shapeOptions)), L.Util.extend(this.options, t)
         },
         enable: function () {
+           // console.log('enable')
             this.fire("activated"), L.Handler.prototype.enable.call(this)
         },
         addHooks: function () {
@@ -191,7 +193,7 @@
         options: {
             shapeOptions: {
                 stroke: !0,
-                color: "#f06eaa",
+                color: "red",
                 weight: 4,
                 opacity: .5,
                 fill: !0,
@@ -215,7 +217,10 @@
         }
     }), L.SimpleShape = {}, L.SimpleShape.Draw = L.Handler.Draw.extend({
         addHooks: function () {
+            console.warn('addhotks')
+
             L.Handler.Draw.prototype.addHooks.call(this), this._map && (this._map.dragging.disable(), this._container.style.cursor = "crosshair", this._updateLabelText({
+            
                 text: this._initialLabelText
             }), this._map.on("mousedown", this._onMouseDown, this).on("mousemove", this._onMouseMove, this))
         },
@@ -239,7 +244,7 @@
         options: {
             shapeOptions: {
                 stroke: !0,
-                color: "#f06eaa",
+                color: "red",
                 weight: 4,
                 opacity: .5,
                 fill: !0,
@@ -253,6 +258,7 @@
             this._shape ? this._shape.setRadius(this._startLatLng.distanceTo(e)) : (this._shape = new L.Circle(this._startLatLng, this._startLatLng.distanceTo(e), this.options.shapeOptions), this._map.addLayer(this._shape))
         },
         _fireCreatedEvent: function () {
+
             this._map.fire("draw:circle-created", {
                 circ: new L.Circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions)
             })
@@ -261,7 +267,7 @@
         options: {
             shapeOptions: {
                 stroke: !0,
-                color: "#f06eaa",
+                color: "red",
                 weight: 4,
                 opacity: .5,
                 fill: !0,
@@ -272,6 +278,7 @@
         },
         _initialLabelText: "Click and drag to draw rectangle.",
         _drawShape: function (e) {
+            console.warn('draw shape')
             this._shape ? this._shape.setBounds(new L.LatLngBounds(this._startLatLng, e)) : (this._shape = new L.Rectangle(new L.LatLngBounds(this._startLatLng, e), this.options.shapeOptions), this._map.addLayer(this._shape))
         },
         _fireCreatedEvent: function () {

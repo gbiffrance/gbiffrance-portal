@@ -1,19 +1,230 @@
 #{extends 'main.html' /}
- <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/charts.css'}"/>
+ <!-- <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/charts.css'}"/> -->
 <script src="@{'/public/javascripts/search/search.js'}"></script>
 <script src="@{'/public/javascripts/d3.v2.min.js'}"></script>
-<script src="@{'/public/javascripts/nv.d3.js'}"></script>
-<script src="@{'/public/javascripts/pieChart.js'}"></script>
+<script src="@{'/public/javascripts/jquery.fullscreen.js'}"></script>
+<script src="@{'/public/javascripts/mapping/attach_events.js'}"></script>
+<script src="@{'/public/javascripts/lodash.min.js'}"></script>
+<script src="@{'/public/javascripts/mapping/map_functions.js'}"></script>
 
-<script src="@{'/public/javascripts/discreteBar.js'}"></script>
+<!-- <script src="@{'/public/javascripts/pieChart.js'}"></script> -->
 
-<script src="@{'/public/javascripts/tooltip.js'}"></script>
+<!-- <script src="@{'/public/javascripts/discreteBar.js'}"></script> -->
+<!-- <script src="@{'/public/json/datasets_stats.json'}"></script> -->
+<script src="@{'/public/javascripts/jquery.tipsy.js'}"></script>
+<!-- <script src="@{'/public/javascripts/jquery.xcolor.js'}"></script> -->
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/tipsy.css'}"> 
+
+<!-- <script src="@{'/public/javascripts/tooltip.js'}"></script> -->
 <style type="text/css">
+
+
+.red_tipsy
+{
+  font-weight: bold;
+  color: #d12a2a;
+}
+.wax-tooltip {
+  z-index:50;
+  position:absolute;
+  background:#1a1a1a;
+  color:#fff;
+  padding:7px;
+ // left:1100px;
+ right: 10px;
+  top:30px;
+  border:2px solid #5CACEE;
+  border-radius:2px;
+  max-width:300px;
+  max-height: 400px;
+  overflow: auto;
+  opacity:1;
+  font-type: Georgia;
+  line-height: 1.3em;
+  font-size: 1em;
+//  width: auto;
+  -webkit-transition:opacity .9s;
+  -moz-transition:opacity .9s;
+  box-shadow:0px 0px 10px #5CACEE;
+  -moz-box-shadow:0px 0px 10px #5CACEE;
+  -webkit-box-shadow:0px 0px 10px #5CACEE;
+  }
+.wax-tooltip span:hover
+{
+  cursor: pointer;
+  background-color: #BBF486;
+  color: black;
+  margin: 4px;
+  
+}
+
+#dt_manager
+{
+  display:visible;
+}
+#search-taxa input,#outil-taxons input,#search-place input
+{
+  color:#1b42a3;
+  font-weight:bold;
+  font-size: 1.1em; 
+}
+#layer_control
+  {
+top:10px;
+position:relative;
+z-index:50;
+background:#bdc2c9; 
+color:#9661D3;
+font-size: 1.1em;  
+left:750px;
+font-weight:bold;
+cursor:pointer;
+ 
+}
+
+.icon-remove
+{
+  cursor:pointer;
+}
+.popover-inner
+{
+  font-size: 17px;
+}
+
+#selected_filters_container b
+{
+font-size:15px;
+color: #C2152C;
+}
+.datasets_label
+{
+  height:auto;
+    width:120px;
+    
+    overflow:auto;
+    white-space:normal !important; // add this line...
+}
+.my_highcart_tooltip
+{
+  height:auto;
+    width:250px;
+    
+    overflow:auto;
+    white-space:normal !important; // add this line...
+}
+#datapublishers_list-dropdown,#datapublishers_list-dropdown_2
+{
+  max-width: 400px;
+}
+#datapublishers-dropdown b
+{
+color:#252525;
+font: 14px sans-serif;
+}
+#datapublishers-dropdown span
+{
+color:#780C7A;
+}
+.btn-group button
+{
+  margin-bottom: 10px;
+ 
+}
+#occurrences_div
+{
+   max-height: 1000px;
+    overflow-y: auto;
+}
+.span3 {
+    opacity: 1;
+  
+    z-index:9999!important;  
+}
+.span6 {
+z-index:1!important;
+  }
+.typeahead { max-height: 250px; overflow-y: auto; }
+
+#datapublishers-dropdown { max-height: 150px; overflow-y: auto;  }
+.popover-inner {
+  width: 350px;
+}
+
+#datapublishers_list-dropdown span,#datapublishers_list-dropdown_2 span
+{
+  color: black;
+  font-weight: bold;
+  margin-left: 5px; 
+  margin: 10px;
+  padding: 5px;
+  font-size: 15px;
+
+}
+
+#datapublishers_list-dropdown li,#datapublishers_list-dropdown_2 li
+{
+  color: #3A318E;
+  margin-left: 5px; 
+  margin: 8px;
+  font-size: 15px;
+}
+
+#datapublishers_list-dropdown li:hover,#datapublishers_list-dropdown_2 li:hover
+{
+  background-color: #AADA58;
+  cursor:pointer;
+}
+#datapublishers_list-dropdown input, #datapublishers_list-dropdown_2 input
+{
+margin-right: 5px;
+vertical-align: baseline;
+}
+
+
+#selected_filters_container a
+{
+margin-left:10px;
+}
+/*.datasets_tipsy .tipsy-inner { padding: 5px 8px 4px 8px; 
+  background-color: red; max-width: 500px; font-size: 15px; 
+  text-align:left;}
+*/
+
+  .datasets_tipsy .tipsy-inner { background-color: #635E63; color: #FFF; max-width: 500px; padding: 5px 8px 4px 8px; text-align: left; }
+
+ .datasets_tipsy  .tipsy-arrow  { opacity:0; }
+  .navbar-inner
+  {
+   height:60px; 
+  }
+  
+.navbar-inner a
+{
+  padding-right: 30px;
+
+}
+
+.dropdown-menu
+{
+padding-right: 15px;  
+}
+
+
+.bbox_handler
+{
+  display: none;
+}
+ul
+{
+list-style: none;
+}
 .red
 {
   color:#db0979;
 }
-
+i {
+  cursor:pointer;
+}
 .remove_bbox
 {
   cursor: pointer;
@@ -23,7 +234,693 @@
 </style>
 
 <script type="text/javascript">
+
+console.log('loading bar')
+var datapubs_json={"1":{"data":["animalia","plantae","sedis","incertae","fungi"],"counts":[1551289,741696,2602,2602,4],"datapublisher_name":"Service du Patrimoine Naturel","total":2298193,"missing":197934},"2":{"data":["plantae","animalia","sedis","incertae","fungi","chromista","bacteria","protozoa","archaea"],"counts":[849215,233769,78929,78929,42061,33844,11999,1025,3],"datapublisher_name":"Mus\u00e9um d'Histoire Naturelle de Paris","total":1329774,"missing":4751704},"3":{"data":["plantae"],"counts":[4588119],"datapublisher_name":"Conservatoire botanique national du Bassin parisien","total":4588119,"missing":51078},"4":{"data":["animalia"],"counts":[489905],"datapublisher_name":"IRD","total":489905,"missing":16959},"5":{"data":["plantae"],"counts":[113],"datapublisher_name":"Agoralogie","total":113,"missing":1},"6":{"data":["plantae","sedis","incertae"],"counts":[2071,1,1],"datapublisher_name":"Association des Naturalistes de la Vall\u00e9e du Loing et du massif de Fontainebleau","total":2073,"missing":352},"7":{"data":["plantae"],"counts":[537],"datapublisher_name":"INRA Lusignan","total":537,"missing":0},"11":{"data":["plantae","fungi","protozoa","animalia","sedis","incertae"],"counts":[17851,5067,177,39,6,6],"datapublisher_name":"Herbarium of Universit\u00e9 de Montpellier 2, Institut de Botanique","total":23146,"missing":2575}};
+
+ function tipsy_datapublishers (id)
+{
+var html;
+for (var datapub in datapubs_json)
+{
+
+if (datapub==id)
+{
+  var _this=datapubs_json[dataset]
+  var _this_data=datapubs_json[datapub].data
+html='<h1>'+_this.datapublisher_name+'</h1>';
+html+='<a href="http://www.gbif.fr:8080/portal-test/datapublishers/show?id='+id+'" target="_blank">Explore it</a></p>';
+html+='<span class="badge badge-success">'+addSeparator(_this.total)+'</span>  total occurrences</p>'
+html+='<span class="badge badge-error">'+addSeparator(_this.missing)+'</span> occurrences unable to be correctly taxonomized</p>';
+for (var i = 0; i<=_this_data.length - 1;  i++) {
+  var counts=_this.counts[i];
+  var percent=((counts/_this.total)*100).toFixed(2);
+  html+='<span class="badge badge-success">'+_this.data[i]+ '</span> '+addSeparator(_this.counts[i])+' (<b>'+percent+'%)</p>';
+};
+  return html;
+}
+}
+}
+
+
+
+function check_able_to_map()
+{
+
+if ($('#datapublishers-dropdown li').size()>0 && $('#taxa-dropdown li').size()>0)
+{
+
+$('#geo_alert').hide()
+$('.leaflet-right').show()
+}
+else
+{
+$('#geo_alert').show();
+$('.leaflet-right').hide();
+}
+}
+
+
+
+
+
 $(document).ready(function() {
+
+window.o_map_h=$('#map_container').height();
+window.o_map_w=$('#map_container').width();
+  jQuery('#fullscreen').click(function ()
+{
+// $('#map_container').css('position','absolute').width('100%').height('100%')
+// $('#map_container').fullScreen(true);
+// map.invalidateSize(true);
+var h=$(window).height();
+var w=$(window).width();
+//recalculate_position(map_left,w,h);
+$('#map_container').parent().fullScreen(true)
+$('#map').height(1200).width(1200)
+
+map.invalidateSize(true);
+need_resizing=true;
+
+})
+
+    jQuery('#no_fullscreen').click(function ()
+{
+
+$('#map_container').parent().fullScreen(false)
+
+
+})
+
+
+
+$('#extra_outils').hide();
+$('#menu_manager').hide();
+//construct an interactions object manager
+ var interactions={};
+
+// $('#french_layers_manager li').click(function (event)
+// {
+ 
+//   var this_name=event.target.id;
+ 
+//   var url='http://www.gbif.fr/mbtiles/layers/'+this_name+'/metadata.jsonp';
+//     wax.tilejson(url, function(tilejson) {
+
+//           var this_layer = new wax.leaf.connector(tilejson);
+          
+//           this_layer.my_id=this_name;
+
+//            map.addLayer(this_layer)
+//            })
+// })
+
+var html_list='';
+dataset_json = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+         'url': 'http://www.gbif.fr:8080/portal-test/public/json/datasets_stats.json',        
+         //'url' : 'http://www.gbif.fr:8080/gbiffrance_portal_test/public/json/datapub_stats/taxa_graphic_simple/datapublisher_'+datapublisher_id+'_graphic.json',
+        //'url': 'http://lully.snv.jussieu.fr/gbif/mapping/gbifs/taxa_graphic_simple/datapublisher_'+datapublisher_id+'_graphic.json',
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+            
+             for (var dp_key in datapubs_json)
+          {
+           html_list+='<span class="datapub_'+dp_key+'">ei  '+datapubs_json[dp_key]['datapublisher_name']+'</span><i class="icon-info-sign"></i> Info</a></br><input type="checkbox" id="datapub_'+dp_key+'" class="select_all">Sélectionner tout</input>';
+          
+          for (var key in data)
+          {
+           var this_dt=data[key]
+          if (dp_key==this_dt.datapublisher_id)
+          {
+          html_list+='<li class="datapub_'+dp_key+'" id="'+key+'"><input type="checkbox">'+this_dt.dataset_name+'</input><i class="icon-info-sign" style="color:#147a23"></i><i class="icon-eye-open" style="color:blue"></i></li>';
+          } 
+          }
+      
+          }
+
+                    $('#datapublishers_list-dropdown ul').append(html_list)
+     
+            }
+          })
+return json;
+})();
+
+ function tipsy_datasets(id,text)
+{
+var html;
+for (var dataset in dataset_json)
+{
+
+if (dataset==id)
+{
+  var _this=dataset_json[dataset]
+  var _this_data=dataset_json[dataset].data
+html='<h3>'+text+'</h3>';
+
+html+='</br><span class="badge badge-success">'+addSeparator(_this.total)+'</span>  total occurrences</br>'
+html+='</br><span class="badge badge-error">'+addSeparator(_this.missing)+'</span> occurrences avec des erreurs</p>';
+//unable to be correctly taxonomized
+for (var i = 0; i<=_this_data.length - 1;  i++) {
+  var counts=_this.counts[i];
+  var percent=((counts/_this.total)*100).toFixed(2);
+  html+='</br><span class="badge badge-success">'+toTitleCase(_this.data[i]) + '</span> '+addSeparator(_this.counts[i])+' (<b>'+percent+'%</b>)</br>';
+};
+html+='</br><a href="http://www.gbif.fr:8080/portal-test/datasets/show?id='+id+'" target="_blank">Explorez ce dataset</a></p>';
+console.info(html)
+  return html;
+}
+}
+}
+
+// var datapublishers_json = (function () {
+//     var json = null;
+//     $.ajax({
+//         'async': false,
+//         'global': false,
+//         'url': 'http://http://lully.snv.jussieu.fr/gbif/mapping/gbifs/datapublishers_list_curl2.json',
+//         'dataType': "json",
+//         'success': function (data) {
+//             json = data;
+
+
+
+//             }
+//     });
+//     return json;
+// })(); 
+
+$('.leaflet-top.leaflet-right').hide()
+
+$('#search-outils div').click(function ()
+{
+var fakeClass=$(this).attr('fakeClass')
+
+if (fakeClass=='outil-geo_bbox')
+{
+  $('.leaflet-top.leaflet-right').toggle();
+  //$('.leaflet-top.leaflet-right .leaflet-control-draw-rectangle').popover('show')
+  $('.leaflet-top.leaflet-right .leaflet-control-draw-rectangle').tipsy('show')
+ // check_able_to_map();
+}
+else
+{
+  
+$('#'+fakeClass).toggle();
+if (fakeClass=='outil-geo')
+{
+check_able_to_map();
+}
+
+}
+})
+
+
+      $('.taxa_search_popover i').live('click',function ()
+      {
+      
+      $('#outil-taxons').popover('destroy')
+      })
+
+
+var $datapub_list_ul=$('#datapublishers-dropdown ul')
+
+
+
+
+$('#datapublishers_list-dropdown ul').click(function (event)
+{
+// var $that_ul=$(this)
+$this=$(event.target)
+var li='';
+if ($this.is('input')==true && !$this.hasClass('select_all'))
+{
+var checked=$this.attr('checked')== 'checked' ? true : false;
+$this.attr('checked',checked)
+
+var dataset_id=$this.parent().attr('id');
+var this_class=$this.parent().attr('class')
+var datapublisher_id=this_class.split('_')[1];
+var datapublisher_name=$('#datapublishers_list-dropdown').find('span.'+this_class).text();
+var dataset_name=$this.parent().text().trim();
+var datapublisher_position=$.inArray(datapublisher_id,datasets_obj.datapublishers.ids)
+var id_in_list='list_'+datapublisher_id;
+if (checked==true)  
+{
+if (datapublisher_position==-1) //still not added datapublisher
+{  
+  datasets_obj.datapublishers.ids.push(datapublisher_id)
+  datasets_obj.datapublishers.names.push(datapublisher_name)
+  var this_div='<div id="'+id_in_list+'" class="datapublisher"><span>'+datapublisher_name+'</span></div>';
+
+
+     li+='<li id="dataset_'+dataset_id+'"><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+dataset_name+'</b><span class="datapub_class" style="display:none;">'+dataset_id+'</span></li></div>';
+  datasets_obj.datasets[datapublisher_id]={"ids":[dataset_id],"names":[dataset_name]};
+
+  $datapub_list_ul.append(this_div);
+
+  console.warn(datasets_obj)
+
+}
+else  //we already added datapublisher
+{
+
+  // console.warn('YES added')
+  // console.info(datapublisher_id)
+  // console.warn(datasets_obj.datasets[datapublisher_id])
+
+  var this_datasets_obj_ids=datasets_obj.datasets[datapublisher_id].ids
+  var this_datasets_obj_names=datasets_obj.datasets[datapublisher_id].names
+  if (checked==true)
+  {
+     this_datasets_obj_ids.push(dataset_id)
+     this_datasets_obj_names.push(dataset_name)
+
+     li+='<li id="dataset_'+dataset_id+'"><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+dataset_name+'</b><span class="datapub_class" style="display:none;">'+dataset_id+'</span></li>';
+  }
+
+
+}
+$('#'+id_in_list).append(li);
+
+var count=$datapub_list_ul.find('li').size();
+
+$('#datapublishers-dropdown-trigger').html('Datasets  <span class="badge_mini badge-warning">'+count+'</span>')
+}   //checked==false
+  else
+  {
+  var this_datasets_obj_ids=datasets_obj.datasets[datapublisher_id].ids
+  var this_datasets_obj_names=datasets_obj.datasets[datapublisher_id].names
+  var dataset_position=this_datasets_obj_ids.indexOf(dataset_id);
+  
+  $datapub_list_ul.find('#dataset_'+dataset_id+' .icon-remove').trigger('click')
+
+  $datapub_list_ul.find('#dataset_'+dataset_id).remove();
+
+  
+  // this_datasets_obj_ids.splice(dataset_position,1)
+  //   this_datasets_obj_names.splice(dataset_position,1)
+    if (this_datasets_obj_ids.length==0)
+    {
+      console.warn('zero')
+
+        $('#'+id_in_list).remove();
+    //  console.warn(datasets_obj.datasets[datapublisher_id])
+      //delete datasets_obj.datasets[datapublisher_id]
+      
+      datasets_obj.datapublishers.ids.splice(datapublisher_position,1)
+       datasets_obj.datapublishers.names.splice(datapublisher_position,1)
+
+      
+    }
+ //   console.warn(datasets_obj.datasets)
+    var count=$datapub_list_ul.find('li').size();
+
+$('#datapublishers-dropdown-trigger').html('Datasets  <span class="badge_mini badge-warning">'+count+'</span>')
+  }
+
+
+}
+
+})
+
+$('#datapublishers_list-dropdown .select_all').click(function ()
+{
+var datapublisher_id=this.id.split('_')[1]
+var $this=$(this)
+var this_class=$this.parent().attr('class');
+var checked=$this.attr('checked')== 'checked' ? true : false;
+var $lis=$("#datapublishers_list-dropdown li.datapub_"+datapublisher_id)
+$lis.find('input').attr('checked',checked)
+
+
+var datapublisher_name=$('#datapublishers_list-dropdown').find('span.datapub_'+datapublisher_id).text();
+
+var dataset_name=$this.parent().text().trim();
+var datapublisher_position=$.inArray(datapublisher_id,datasets_obj.datapublishers.ids)
+var id_in_list='list_'+datapublisher_id;
+var $datapub_list_ul=$('#datapublishers-dropdown ul')
+var id_in_list='list_'+datapublisher_id;
+$lis_inputs=$lis.find('input').parent()
+
+var datasets_id=$lis_inputs.map(function ()
+{
+return this.id
+}).toArray()
+
+var datasets_name=$lis_inputs.parent().map(function ()
+{
+return $(this).text().trim()
+}).toArray()
+
+
+
+if (checked==true)
+{
+
+ datasets_obj.datasets[datapublisher_id]={"ids":[],"names":[]};
+var this_datasets_obj_ids=datasets_obj.datasets[datapublisher_id].ids
+
+  
+  var this_datasets_obj_names=datasets_obj.datasets[datapublisher_id].names
+for (var i = 0;i<datasets_id.length;i++) 
+{
+ this_datasets_obj_ids.push(datasets_id[i])
+ this_datasets_obj_names.push(datasets_name[i])
+  
+};
+
+  var this_div='<div id="'+id_in_list+'" class="datapublisher"><span>'+datapublisher_name+'</span></div>';
+
+   $datapub_list_ul.append(this_div);
+  console.warn('checked true')
+  var to_append='';
+$lis.each(function ()
+{
+  var text=$(this).text()
+
+to_append+='<li id="dataset_'+this.id+'"><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+text+'</b><span class="datapub_class" style="display:none;">'+this.id+'</span></li>';
+
+})
+$('#'+id_in_list).append(to_append);
+
+}
+else
+{
+
+$('#'+id_in_list).find('.icon-remove').trigger('click')
+$('#'+id_in_list).remove();
+
+datasets_obj.datapublishers.ids.splice(datapublisher_position,1)
+datasets_obj.datapublishers.names.splice(datapublisher_position,1)  
+}
+
+
+
+check_able_to_map();
+
+var count=$datapub_list_ul.find('li').size();
+
+$('#datapublishers-dropdown-trigger').html('Datasets  <span class="badge_mini badge-warning">'+count+'</span>')
+
+})
+
+$('#selected_filters_container .icon-remove').live('click',function (event)
+              {
+          
+              var $li=$(event.target).parent();
+
+              console.warn($li)
+              var $ul=$li.parent()
+              console.info($ul)
+              var $div=$ul.parent()
+              
+              $li.remove();
+              switch ($div.attr('id'))
+              {
+                case 'taxa-dropdown':
+                  $li.remove();
+                  var count=$ul.find('li').size();
+                  $('#taxa-dropdown-trigger').html('Taxons  <span class="badge_mini badge-success">'+count+'</span>')
+                break;
+
+                case 'places-dropdown':
+
+                    var count=$ul.find('li').size();
+                    $('#places-dropdown-trigger').html('Lieux  <span class="badge_mini badge-warning">'+count+'</span>')
+
+                break;
+                default:  //dealing with datasets (in that case its $ul is not UL but DIV... to solve via data())
+
+                  var datapublisher_id=$ul.attr('id').split('_')[1];
+                  var dataset_id=$li.attr('id').split('_')[1];
+                 
+                  $('#datapublishers_list-dropdown').find('#'+dataset_id+' input').attr('checked',false)
+
+                  var count=$ul.find('li').size();
+                
+                  $('#datapublishers-dropdown-trigger').html('Datasets <span class="badge_mini badge-warning">'+count+'</span>');
+
+                 if ($ul.find('li').size()==0)
+                 {
+                  var datapublisher_position=$.inArray(datapublisher_id,datasets_obj.datapublishers.ids)
+
+                  $('#list_'+datapublisher_id).remove(); //removing datapublisher title
+                   datasets_obj.datapublishers.ids.splice(datapublisher_position,1)
+                   datasets_obj.datapublishers.names.splice(datapublisher_position,1)
+                 } 
+
+                break;
+
+              }
+         
+
+              })
+
+$('input').empty().attr('autocomplete', 'off')
+
+$('#search-inputs div').hide()
+
+     // $('.popover').live('click',function (event)
+     //       {
+     //    var $target=$(event.target)
+        
+     //    if ($target.hasClass('close')==true)
+     //    {
+
+     //      $(this).hide()
+     //    }
+     //    else
+     //    {
+     //      //extensible 
+     //    var my_taxa=$('#input-search-taxa').val()
+     //    $('#search-taxa').data('popover').$tip.find(".unknown_taxa").html("<div>Your taxa has been added to filters list</div>")  
+     //    var $ul=$("#taxa-dropdown ul")
+     //    $ul.append('<li><i class="icon-remove" style="color:#9C0890;"></i><b>'+my_taxa+'</b> <span>unknown</span></li>')
+     //    var count=$ul.find('li').size();
+     //    $('#taxa-dropdown-trigger').html('Taxons  <span class="badge_mini badge-success">'+count+'</span>')
+     //    }
+        
+
+
+     //       })
+
+$('#input-search-taxa').bind('keypress',function ()
+{
+$(this).next().show()
+})
+
+      function typeahead_error ($elem)
+      {
+        $elem.popover(
+        {
+            trigger: 'manual',
+            html: true,
+            // delay: {  hide: 7000 },
+            title:  '<button type="button" class="close" data-dismiss="popover" aria-hidden="true">×</button>',
+            content:  "<div class='unknown_taxa'> It seems the <strong>server is down</strong>or your taxa is not on ECAT Catalog</div>"
+        }).data('has_popover',true);
+
+       $elem.popover('show');
+        
+    }
+$('#input-search-taxa').typeahead({
+  items:150,
+  search_type:'taxes',
+
+  source: _.debounce(function (query, process) {
+    if ( this.xhr ) {
+      //  console.log(this.xhr)
+        this.xhr.abort();
+      }
+   this.xhr=jQuery.ajax({
+    type: "GET",
+   url: 'http://lully.snv.jussieu.fr/gbif/mapping/php/dataportal/autocomplete_portal_local.php?taxa='+query,
+   
+   //url: 'http://lully.snv.jussieu.fr/gbif/mapping/php/dataportal/autocomplete_taxa.php?taxa='+query,
+   // url: 'http://ecat-dev.gbif.org/ws/usage/?&pagesize=50&rkey=1&count=true&q='+query,
+    dataType: "jsonp",
+    //jsonp:false,
+    timeout:5000,
+
+    success: function(results){
+        //icon-spin    
+        var $elem=$('#search-taxa')
+        var $spinner=$elem.find('.icon-spinner');
+        if (!results.length)
+        {
+          typeahead_error ($elem);
+          process([]);
+          return;
+        }    
+        
+        if ($(this).data('has_popover')==true)
+        {
+          $(this).popover('hide');
+           $spinner.hide();
+        }
+        
+        $spinner.hide();
+        var labels=[];
+        $.each(results, function (index, data) {
+           var this_html='<b>'+data.name+'</b> <span  class="taxa_level">'+data.taxa_level+'</span>';
+          labels.push(this_html);
+        });
+        
+        process(labels);
+    },
+    timeout: function(XMLHttpRequest, textStatus, errorThrown){
+      
+       typeahead_error ($('#search-taxa'))
+     }
+
+});
+ } ,200)
+})
+
+
+$('#input-search-taxa2').typeahead({
+  items:50,
+  search_type:'taxes2',
+  source: _.debounce(function (query, process) {
+
+   jQuery.ajax({
+    type: "GET",
+    url: 'http://localhost:8888/autocomplete_portal_local.php?taxa='+query,
+   //url: 'http://lully.snv.jussieu.fr/gbif/mapping/php/dataportal/autocomplete_taxa.php?taxa='+query,
+   //url: 'http://ecat-dev.gbif.org/ws/usage/?&pagesize=50&rkey=1&count=true&q='+query,
+    dataType: "jsonp",
+    
+    //jsonp:false,
+  //  timeout:5000,
+
+    success: function(results){
+ 
+     if (!results.length)
+        {
+          typeahead_error ($('#search-taxa2'));
+             process([]);
+        }    
+      
+      $spinner=$('#search-taxa').find('.icon-spinner')
+        $spinner.hide()
+        var labels=[];
+      $.each(results, function (index, data) {
+           var this_html='<b>'+data.name+'</b> <span  class="taxa_level">'+data.taxa_level+'</span>';
+          labels.push(this_html);
+        });
+        
+        process(labels);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      
+        typeahead_error ($('#search-taxa2'))
+    }
+});
+ } ,200)
+});
+
+var existing_map;
+if ($('#map').size()>0)
+{
+  existing_map=true;
+}
+else
+{
+  existing_map=false;
+}
+
+
+$('#input-search-place').typeahead({search_type:'places',existing_map:existing_map,
+  source: _.debounce(function (query, process) {
+    $.getJSON(
+      'http://nominatim.openstreetmap.org/search/?json_callback=?',
+      {
+        'q': query,
+        'format': 'json',
+        'limit': 10
+      },
+      function (data) {
+     
+        if (!data.length) { return; }
+        var labels = [];
+   
+      
+        $.each(data, function (index, location) {
+        if (existing_map==true)
+        {
+        switch (location.display_name)
+        {
+          case ('Africa') : var bbox_text="-35.3,-25.2,38.0,60.6";break;        
+          case ('Asia') : var bbox_text="-12.9,25.0,81.8,174.1";break;
+          
+
+          case ('Europe') : var bbox_text="33.9,-28.0,82.7,74.1";break;
+          case ('North America') : 
+          var bbox_text="-12.9,25.0,81.7,-168.4";break;
+          case ('South America') : var bbox_text="-56.5,-94.0,13.1,-32.6";break;
+
+          
+
+          case ('Alps') : var bbox_text="4.91,43.17,17.16,48.81";break;
+          default: 
+          var bbox=location.boundingbox;          
+          var bbox_text;
+           for (var i in bbox)
+        {
+         
+        bbox_text=bbox[0]+','+bbox[2]+','+bbox[1]+','+bbox[3];
+        }
+          var bbox=location.boundingbox; break;
+ 
+        }
+
+
+        var this_html='<b>'+location.display_name+'</b> <span  class="bbox_handler">'+bbox_text+'</span>';
+      }
+      else
+      {
+        var this_html='<b>'+location.display_name+'</b>';
+        console.warn(this_html)
+      }
+          labels.push(this_html);
+
+        });
+        
+   
+        process(labels);
+      }
+    );
+  }, 300),
+  minLength: 3
+});
+
+$('#places-dropdown .icon-eye-open').live('click',function ()
+{
+var bbox_text=$(this).parent().find('.bbox_handler').text()
+
+
+bbox_array=bbox_text.split(',')
+
+var sw_array=[]
+sw_array.push(parseFloat(bbox_array[0]))
+sw_array.push(parseFloat(bbox_array[1]))
+
+
+var ne_array=[]
+ne_array.push(parseFloat(bbox_array[2]))
+ne_array.push(parseFloat(bbox_array[3]))
+
+var bbox=[]
+bbox.push(sw_array)
+bbox.push(ne_array)
+
+map.fitBounds(bbox)
+})
 
   $('.span6').live('click',function (event)
 {
@@ -42,94 +939,366 @@ $(event.target).addClass('red')
    //spinner will disappear after occurrences.html is loaded on page
       $("#ajax_image").show();
    }
-  /*** Dataset Auto-completion ***/ 
-  $("#input-search-dataset").autocomplete().each(function() {
-    var $input = $(this);
-    // Set-up the autocomplete widget.
-    $(this).autocomplete({
-      minLength: 3,
-      source : function(req, resp) {
-        $.getJSON("datasets/autocomplete?search=" + req.term, function(data) {
-          var suggestions = [];
-          $.each(data, function(i, val) {
-            var obj = {};
-            obj.label = val.title;
-            obj.id = val.id;
-            suggestions.push(obj);
-          })
-          resp(suggestions);
-        })
-      }  
-    })
-  });
   
-  /*** Taxa Auto-completion ***/ 
-  $("#input-search-taxa").autocomplete().each(function() {
-    var $input = $(this);
+ 
 
-    // Set-up the autocomplete widget.
-    $(this).autocomplete({
-      minLength: 4,
-      source : function(req, resp) {
+$('#datapublishers_list-dropdown a').click(function (e)
+{
+
+var id=$(this).parent().attr('id');
+var text=$(this).text().trim();
+
+var li='<li><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+text+'</b><span class="datapub_class" style="display:none;">'+id+'</span></li>';
 
 
-        $.getJSON("taxas/autocomplete?search=" + req.term, function(data) {
-          var suggestions = [];
-          $.each(data, function(i, val) {
-            var obj = {};
-            obj.label = val.canonicalName;
-            obj.id = val.id;
-            suggestions.push(obj);
-          })
-          resp(suggestions);
-        })
-      }  
-    })
-  })
+$datapub_list_ul.append(li);
+var count=$datapub_list_ul.find('li').size();
+
+$('#datapublishers-dropdown-trigger').html('Datasets  <span class="badge_mini badge-warning">'+count+'</span>').trigger('click')
+
+
+e.preventDefault();
+})
+var current_dataset;
+
   
+ 
+
+
+  $('.popover').live('click',function (e)
+{
+
+  if (e.target.className=='close')
+  {
+ $(this).hide()
+  
+  }
+})
+
+
+
+$('#dt_manager li').live('click',function (event)
+{
+var $target=$(event.target);
+var $this=$(this);
+var dt_id=$(this).data('_id');
+
+console.info(typeof dt_id)
+if ($target.is('span'))
+{
+  console.log($target.attr('action'))
+  switch ($target.attr('action'))
+  {
+    case 'remove_dt': 
+
+    $.each(map._layers, function(index, value)  
+      {
+      if (value.my_id && value.my_id==dt_id)
+      {
+        console.dir(value)
+    value.interaction.off()
+    map.removeLayer(value)
+
+      }
+      })
+    $this.remove();
+
+    break;
+
+    case 'hide_dt': 
+
+      if ($target.data('show')==true)
+      {
+        
+        //layer is visualized on map, let's hide it
+          $.each(map._layers, function(index, value)  
+            {
+            if (value.my_id && value.my_id==dt_id)
+            {
+             value.setOpacity(0)
+            }
+            })
+            $target.html('show')
+            .data('show',false);
+
+      }
+      else
+      {
+       
+
+           $.each(map._layers, function(index, value)  
+            {
+            if (value.my_id && value.my_id==dt_id)
+            {
+             value.setOpacity(1)
+            }
+            })
+            $target.html('Hide')
+            .data('show',true);
+      }
+
+  
+    break;
+
+    case 'highglight_dt': 
+    break;    
+  }
+}
+
+})
+$('#datapublishers_list-dropdown li').click(function (event)
+{
+var target=event.target;
+var dataset_id=this.id;
+var target_class=target.className;
+console.info(target_class)
+var text=$(this).text()
+switch (target.className)
+{
+  case 'icon-info-sign': 
+  $(this).popover(
+  {
+  trigger:'toggle',
+
+    html: true,
+    delay: { show: 500, hide: 2000 },
+    style: 'datasets_tipsy',
+
+   title:  '<button type="button" class="close" data-dismiss="popover" aria-hidden="true">×</button>',
+
+   content: function () {
+                          $('.popover').not(this).hide()                      
+                          
+                          
+                          return tipsy_datasets (dataset_id,text)                                                     
+                              }
+      })
+  break;
+  case 'icon-eye-open': 
+
+  add_layer('dataset','dataset_'+dataset_id,text);
+  break;
+
+  default:
+  break;
+}
+ console.warn($(this))
+$(this).popover('show')
+})
+
+ 
+// $('#datapublishers_list-dropdown li').tipsy({
+
+//                             delayIn: 500, 
+//                         //  delayOut: 70000,
+//                               fade: true, 
+//                               gravity: 'w', 
+//                               opacity:1,
+//                               className: 'datasets_tipsy',
+//                                offset: 0, 
+
+//                               html: true, 
+//                               title: function () {
+                           
+//                              // var id=$(this).parent().attr('id');
+//                             var text=$(this).text()
+
+//                              return tipsy_datasets (this.id,text) 
+                              
+//                               }
+// })
+
+$('#datapublishers_list-dropdown  span').tipsy({
+
+                            delayIn: 500, 
+                        //  delayOut: 70000,
+                              fade: true, 
+                              gravity: 'w', 
+                              opacity:1,
+                              className: 'datasets_tipsy',
+                               offset: 0, 
+
+                              html: true, 
+                              title: function () {
+                           
+                              var id=$(this).parent().attr('id');
+                              
+
+                             return tipsy_datapublishers (id) 
+                              
+                              }
+})
+
+ var ajax_x=$('#map').width()/2
+var ajax_y=$('#map').height()/2
+
+$('#map_container').append('<img id="map_ajax_image" style="display:none;position:relative;width:50px;height:50px;left:'+ajax_x+'px;top:-'+ajax_y+'px" src="../../../public/images/spinner3-greenie.gif"/>')
+
+
 });
 </script>
 <div class="container">
   <div class="form-search">
-    #{form @Application.search(), id:'searchForm', class:'form-search alert alert-info'}
+     #{form @Application.search(), id:'searchForm', target:"_blank", class:'form-search alert alert-info'} 
       <span>&{'info_bar'}<br/></span>      
       <div class="btn-group" id="search-filters">   
           <div class="btn btn-info btn-tiny search-filter" id="search-filter-taxa">&{'taxa'}</div>
           <div class="btn btn-warning btn-tiny search-filter" id="search-filter-place">&{'place'}</div>
           <div class="btn btn-primary btn-tiny search-filter" id="search-filter-date">&{'date'}</div>
-          <div class="btn btn-danger search-filter" id="search-filter-dataset">&{'dataset'}</div>
+          <div class="btn btn-danger  search-filter" id="search-filter-dataset">
+            &{'dataset'}</div>          
+
+       <!--    <div id="datapublishers_list-dropdown" class="dropdown-menu has-tip has-scroll">          
+
+          <ul> 
+            <span class="datapub_1">Service du Patrimoine Naturel</span></br>
+            <input type="checkbox" id="datapub_1" class="select_all">Sélectionner tout</input><li class="datapub_1" id="1"><input type="checkbox">CBN Aquitaine-Poitou-Charentes</input></li><li class="datapub_1" id="2"></li>
+          </ul>
+        </div> -->
+
           <div class="btn btn-success btn-tiny search-filter" id="search-filter-coordinates">&{'onlyWithCoordinates'}</div>
+
+
           
           <!-- <div class="btn btn-success btn-tiny search-filter" id="search-filter-area">Draw and search by area</div> -->          
+       
       </div> 
+     
+     <div class="navbar" style='float:left;padding-left:50px;'>
+     
+       <div id="selected_filters_container">
+
+           <a id='datapublishers-dropdown-trigger' href="#" data-dropdown="#datapublishers-dropdown">Datasets  <span class="badge_mini badge-error">0</span></a>
+     <div id="datapublishers-dropdown" class="dropdown-menu has-tip">          
+                                 <ul>                             
+                                 </ul>
+                                 
+          
+       </div> 
+
+      <a id='taxa-dropdown-trigger' href="#" data-dropdown="#taxa-dropdown">Taxons  <span class="badge_mini badge-error">0</span></a>
+     <div id="taxa-dropdown" class="dropdown-menu has-tip">
+          
+                                 <ul>
+                             
+                                 </ul>
+       </div>
+          
+    <a id='places-dropdown-trigger' href="#" data-dropdown="#places-dropdown">Lieux  <span class="badge_mini badge-error">0</span></a>
+     <div id="places-dropdown" class="dropdown-menu has-tip">          
+                                 <ul>                             
+                                 </ul>
+                                 
+          
+       </div> 
+
+ 
+
+       
+       </div> 
+</div> 
+
       <div id="search-main-box">
-        <div id="search-inputs">
+        <div id="search-inputs" style="width: 390px;float:left;">
           <div id="search-taxa" class="search-input btn btn-large btn-info">
+            <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i>
             <label><h5>&{'taxa'}</h5></label>
-            <input class="input-large search-query" type="text" id="input-search-taxa" name="searchTaxa" value=#{if search && search.taxaText}"${search.taxaText}"#{/if}#{else}""#{/else}/>
+
+            <input class="search-query" type="text" style="background-color:#B3B9B9;" id="input-search-taxa" name="searchTaxa" data-provide="typeahead" value="${taxa?.list}">
+
+            <i class="icon-spinner icon-spin" style="left:-30px;position:relative;display:none;"></i></input>
           </div>
           <div id="search-place" class="search-input btn btn-large btn-warning">
+             <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i>
             <label><h5>&{'place'}</h5></label>
-            <input class="input search-query" type="text" id="input-search-place" name="searchPlace" value=#{if search && search.placeText}"${search.placeText}"#{/if}#{else}""#{/else}/>
+            <input class="search-query" type="text" style="background-color:#B3B9B9;" id="input-search-place" name="searchPlace" data-provide="typeahead" value="${place?.list}">
+             <i class="icon-spinner icon-spin" style="left:-30px;position:relative;display:none;"></i></input>
           </div>
           <div id="search-dataset" class="search-input btn btn-large btn-danger">
+            <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i>
             <label><h5>&{'dataset'}</h5></label>
             <input class="input search-query" type="text" id="input-search-dataset" name="searchDataset" value=#{if search && search.dataset}"${search.dataset}"#{/if}#{else}""#{/else}/>
-          </div>
+          </div> 
+
+        <div id='datapublishers_list-dropdown-trigger' style='display:none;cursor:pointer' href="#" data-dropdown="#datapublishers_list-dropdown">Datasets</div> 
+          <div id="datapublishers_list-dropdown" class="dropdown-menu has-tip has-scroll">
+<!--  <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i> -->
+                                 <ul> 
+
+
+                                 </ul>
+          </div> 
+
           <div id="search-date" class="search-input btn btn-large btn-primary">
+            <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i>
             <label><h5>&{'date'}</h5></label>
             <input id="input-search-date" class="input-small search-query" name="searchDate" value=#{if search && search.dateText}"${search.dateText}"#{/if}#{else}""#{/else}/>            
           </div>
-          <div id="search-coordinates" class="search-input btn btn-large btn-success">
+          <div id="search-coordinates" class="search-input btn btn-small btn-success" style="display: block; width: 160px;">
+           <i class="icon-remove" style="top:0px;position:relative;color:#9C0890;float:left;"></i> 
             <h4>&{'onlyWithCoordinates'}</h4>
             <input class="input search-query" type="hidden" id="input-search-coordinates" name="searchCoordinates" value=#{if search && search.onlyWithCoordinates}"${search.onlyWithCoordinates}"#{/if}
-                                                                                                                               #{elseif search && search.placeText && search.placeText.substring(0,1).equals('[')}"true"#{/elseif}
-                                                                                                                               #{else}"false"#{/else}/>
-          </div>       
-          <input class="btn btn-large" style="float:right;"id="search-submit" type="submit" value="&{'search'}"/>
-        </div>       
+#{elseif search && search.placeText && search.placeText.substring(0,1).equals('[')}"true"#{/elseif}
+#{else}"false"#{/else}/>
+          </div>  
+           <input class="btn btn-large" style="float:left;border:3px solid #7D7C7D;display:none;" id="search-submit" type="submit" value="&{'searchButton'}"/>
+          
+        </div>  
+ 
       </div>
 
     #{/form}
+
+  
+
   </div>
+
+  <button  id='show_extra' style="display:none" class="hidden btn btn-warn">Show extra tools</button>
+    <div id="extra_outils" class="form-search alert-info;display:none">
+ 
+      <span>Utilisez ces outils pour explorer les donnés avant d'apliquer des filtres<br/>
+      </span> 
+
+         <div class="btn-group" id="search-outils">   
+   <div class="btn btn-info btn-tiny" fakeClass='outil-taxons' id="search-filter-taxa">Taxons in datasets</div>
+  <div class="btn btn-warning btn-tiny" fakeClass='outil-geo' id="search-filter-place">Geographic distribution</div>
+  <!--<div class="btn btn-warning btn-tiny" fakeClass='outil-geo_bbox' id="search-filter-place">Explore geo</div>
+-->
+          </div>
+
+
+         <div id="outil-taxons" style="display:none" class="search-input btn btn-large btn-info">
+            <i class="icon-remove" style="top:0px;position:relative;color:#9C0890"></i>
+            <label><h5>&{'taxa'}</h5></label>
+
+            <input class="search-query" type="text" style="background-color:#B3B9B9;" id="input-search-taxa2" name="searchTaxa" data-provide="typeahead" value="${taxa?.list}">
+
+            <i class="icon-spinner icon-spin" style="left:-30px;position:relative;display:none;"></i></input>
+          </div>
+
+        <div id="outil-geo" style="display:none">
+    <div id='geo_alert' class="alert alert-block alert-error fade in">Au minimum 1 dataset et un nom taxon est requis. Add them using the filters (Taxa and Dataset) provided above</div>
+    <button id='all_dataset_5deg' class="btn btn-info map_it">Distribution 5 degrés</button>
+    <button id='all_dataset_1deg' class="btn btn-success map_it">Distribution 1 degrés</button>
+
+  
+    </div>
+
+    </div>
+
    <img id='ajax_image' src="@{'/public/images/spinner3-greenie.gif'}" style='height:50px;width:50px;display:none;position:relative;'/>
+
+<!--    <div id='search_taxa_div' style="height:auto;display:none;">
+
+<div class="modal-header">
+<a class="close" data-dismiss="modal">×</a>
+<h3>Type a taxa</h3>
+</div>
+
+<div class="modal-body" style="height:100%;max-width:250px;overflow-y:visible">
+<input id='test-input' type="text" data-provide="typeahead"/>
+<button id='search_all_genus' class="btn input-medium search-query">Search</button>
+<div id='search_all_genus_results' style='width:320px'></div>
+</div>
+</div>
+-->

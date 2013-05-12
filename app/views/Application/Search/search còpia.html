@@ -1,0 +1,156 @@
+#{extends 'main.html' /}
+#{include 'Application/Search/bar.html' /}
+#{set title:'Home' /}
+
+ <script src="@{'/public/javascripts/d3.v2.min.js'}"></script>
+  <script src="@{'/public/javascripts/highcharts.js'}"></script>
+  <script src="@{'/public/javascripts/exporting.js'}"></script>
+
+
+<style type="text/css">
+
+
+.sorted:hover
+{
+  cursor: pointer;
+  /*background-color: #776AED;*/
+}
+
+</style>
+<script type="text/javascript" >
+
+//actions defined in app/controllers/Application.java
+   var taxas = #{jsAction @Taxas.search(':search', ':page') /}  
+
+  
+var occurrences = #{jsAction @Occurrences.search(':searchTaxa', ':searchPlace', ':searchDataset', ':searchDate', ':onlyWithCoordinates', ':from') /}  
+console.info(occurrences)
+
+   var places = #{jsAction @Places.search(':search') /}
+ 
+
+   var datasets = #{jsAction @Datasets.search(':search') /}
+ 
+  $(document).ready(function() {
+    //check previous versions for a first test of directly mapping 
+
+  $('#extra_outils').hide()
+  $('.icon-remove').live('click',function ()
+                {
+                  var $parent=$(this).parent();
+                  if ($parent.is('li')) $parent.remove()
+                    else  $parent.parent().remove()
+                })
+
+ 
+ first_request=true;
+
+ //executes search based on URL
+
+searchOccurrences("${search.taxaText}","${search.placeText}","${search.dataset}","${search.dateText}","${search.onlyWithCoordinates}", 0)
+
+$('#search-submit').show()
+
+ 
+function collect_parameters()
+{
+  return function ()
+  {
+// if (first_request==true)
+// {
+taxes="${search.taxaText}";//.split(';')
+places="${search.placeText}";
+datasets_text="${search.dataset}";  
+
+if (taxes!=='')
+{
+taxes_array=taxes.split(';');
+console.dir(taxes_array)
+var lis='';
+for (var i = taxes_array.length - 1; i >= 0; i--) 
+{
+
+   lis+='<li><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+taxes_array[i]+'</b></li>';  
+};
+
+
+$('#taxa-dropdown ul').append(lis)
+
+var count=$('#taxa-dropdown li').size()
+
+$('#taxa-dropdown-trigger').html('Taxas  <span class="badge_mini badge-success">'+count+'</span>')
+
+
+}
+
+
+if (datasets_text!='')
+{
+var datasets_array=datasets_text.split(';');
+var lis='';
+for (var i = datasets_array.length - 1; i >= 0; i--) 
+{
+  lis+='<li><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+datasets_array[i]+'</b></li>';  
+};
+$('#datapublishers-dropdown ul').append(lis)
+
+var count=$('#datapublishers-dropdown li').size()
+
+$('#datapublishers-dropdown-trigger').html('Datasets  <span class="badge_mini badge-success">'+count+'</span>')
+
+}
+
+if (places!='')
+{
+places_array=places.split(';');
+var lis='';
+for (var i = places_array.length - 1; i >= 0; i--) 
+{
+
+   lis+='<li><i class="icon-remove" style="color:#9C0890;float:left;"></i><b>'+places_array[i]+'</b></li>';  
+};
+
+
+$('#places-dropdown ul').append(lis);
+
+var count=$('#places-dropdown li').size()
+
+$('#places-dropdown-trigger').html('Places  <span class="badge_mini badge-success">'+count+'</span>')
+
+}
+
+}
+
+}
+
+//
+collect_parameters()()
+//first_request=false;
+
+ 
+
+  });
+</script>
+#{if flash.errorDate}
+<div class="container alert alert-error" style="width:890px;" id="flash">
+     
+    	<p style="color:#c00">
+          <h4>&{'dateError'}</h4>
+    	</p>	
+</div>
+#{/if} 
+<div class="container">
+   <div class='btn btn-primary btn-tiny'  style='position:relative;display:none;' id='map_it'>Visualize map</div>  
+    <div id="map" style='width:100%;height:400px;display:none;position:relative'></div> 
+    
+  <div class="row occ_results" style="margin-left: 0px;opacity:0.01;">
+     <div id="occurrences"></div>  
+  <!--   <div id="sidebar" class="span3">
+     
+      <div class='alert alert-error taxes_alert2'><b>Your taxas</b><ul style="list-style:none;"></ul></div>
+      <div id="datasets"></div>
+      <div id="places"></div>
+      <div id="taxas"></div>
+    </div>   -->
+  </div>
+</div>
