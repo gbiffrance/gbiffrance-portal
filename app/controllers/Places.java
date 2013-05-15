@@ -42,7 +42,7 @@ public class Places extends Controller {
 		{
 		  geoResponse = WS.url("http://where.yahooapis.com/v1/places.q('"+splittedSearch[h]+"')?format=json&appid="+apiKey).get();
 
-		  //System.out.println("http://where.yahooapis.com/v1/places.q('"+textPlace+"')?format=json&appid="+apiKey);
+		 //System.out.println("http://where.yahooapis.com/v1/places.q('"+textPlace+"')?format=json&appid="+apiKey);
 		  if (geoResponse.success())
 		  {
 			JsonObject jsonObject = geoResponse.getJson().getAsJsonObject().get("places").getAsJsonObject();

@@ -4,17 +4,35 @@
       <title>#{get 'title' /}</title>
       <meta charset="${_response_encoding}">
       <link rel="stylesheet" media="screen" href="@{'/public/bootstrap/css/bootstrap.css'}">
+          
+    <link rel="stylesheet" href="@{'/public/bootstrap/FortAwesome/css/font-awesome.min.css'}">
       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-
       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/leaflet.css'}"> 
+      <link rel="stylesheet" media="screen" href="@{'/public/bootstrap/css/jquery.dropdown.css'}"> 
       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/site-style.css'}">       
       <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/leaflet.draw.css'}">
        <script src="@{'/public/javascripts/mapping/leaflet-src.js'}"></script>
-
-
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+           // <script src="@{'/public/javascripts/jquery-1.7.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+          <script src="@{'/public/javascripts/d3.v2.min.js'}"></script>
+<script src="@{'/public/javascripts/jquery.xcolor.js'}"></script>   
+<script src="@{'/public/javascripts/waypoints.min.js'}"></script>
        <script src="@{'/public/javascripts/mapping/leaflet.draw.js'}"></script>
        <script src="@{'/public/javascripts/mapping/wax.leaf.min.js'}"></script>
+       <script src="@{'/public/javascripts/mapping/leaflet-providers.js'}"></script>
+   <script src="@{'/public/javascripts/jquery.tipsy.js'}"></script>
+         <link rel="stylesheet" href="@{'/public/stylesheets/tipsy.css'}"/>
+       <style type="text/css">
+.icon-remove
+{
+  cursor:pointer;
+}
+</style>
 	   <script type="text/javascript">
+
+var d_to_pass=[]
+console.log('loading main')
+
   	     var _gaq = _gaq || [];
   		 _gaq.push(['_setAccount', 'UA-37018873-1']);
   		 _gaq.push(['_trackPageview']);
@@ -24,12 +42,19 @@
     	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   		})();
+
+      
 	  </script>
       
       <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-      <script src="@{'/public/javascripts/jquery-1.7.1.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-      <script src="@{'/public/bootstrap/js/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-      <script src="@{'/public/javascripts/jquery-ui-1.8.21.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  
+       
+    
+       <script src="@{'/public/bootstrap/js/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+
+          <script src="@{'/public/bootstrap/js/jquery.dropdown.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+    
+    
       #{get 'moreScripts' /}
     </head>
     <body>
@@ -48,7 +73,7 @@
 			  <li id="menu-item-608" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-608"><a href="http://www.gbif.fr/?page_id=225" onclick="javascript:_gaq.push(['_trackEvent','outbound-menu','http://www.gbif.fr']);">Documentation</a></li>
 			  <li id="menu-item-1483" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1483"><a href="http://www.gbif.fr/metadata/index.php/metadata" onclick="javascript:_gaq.push(['_trackEvent','outbound-menu','http://www.gbif.fr']);">Métadonnées</a></li>
 			</ul>
-			<div style="float:right;"><img height="70" width="70" style="margin:10px;" src="http://www.gbif.fr/wp-content/themes/gbif/img/paint-simple-gbif-logo-120px.png"></div>
+<!-- 			<div style="float:right;"><img height="70" width="70" style="margin:10px;" src="http://www.gbif.fr/wp-content/themes/gbif/img/paint-simple-gbif-logo-120px.png"></div> -->
 			</div>
 			<div id="sub-menu" style="float:left;"></div>
 		  </div>

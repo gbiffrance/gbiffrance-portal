@@ -13,12 +13,15 @@
         this.$element = $(element);
         this.options = options;
         this.enabled = true;
+
         this.fixTitle();
+
     }
     
     Tipsy.prototype = {
         show: function() {
             var title = this.getTitle();
+             
             if (title && this.enabled) {
                 var $tip = this.tip();
                 
@@ -100,11 +103,17 @@
         },
         
         hide: function() {
+            
+            // if (this.options.keep!==true)
+            // {
+
+            
             if (this.options.fade) {
                 this.tip().stop().fadeOut(function() { $(this).remove(); });
             } else {
                 this.tip().remove();
             }
+//            }
         },
         
         fixTitle: function() {
